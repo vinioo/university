@@ -3,84 +3,102 @@
 #include <string.h>
 
 void menu();
-int getNumber();
-float getFloatPositiveNumber();
-float calcPaymentValue(int days);
-float calcPayment(float salary);
-float calcAverageSalary(float salary[]);
+int getNumeroInteiro();
+float valorLiquidoSalario(int numeroDias, float *salarioFinal);
+float getNumeroReal(float *numero);
+float calcularNovoSalario(float salario);
+float calcularMediaSalarios();
 
 int main() {
-  char option[1];
-  int workDays;
-  float newSalary;
-  do {
-    menu();
-    scanf("%s", &option);
-  } while (strcmp(option, "C") || strcmp(option, "A") || strcmp(option, "B"));
-  // Seria essa a melhor forma para comparação de strings no C?
-
-  if (option == "A") {
-    workDays = getNumber();
-    // Como passar o parametro de salario por referencia aqui
-    newSalary = calcPaymentValue(workDays);
-    printf("\n O valor do pagamento será de %f", newSalary);
-  }
-
-  if (option == "B") {
-    newSalary = calcPayment(newSalary);
-    printf("\n O valor do salario será de %f", newSalary);
-  }
-  getNumber();
-  return 0;
+  setbuf(stdout, NULL);
+  menu();
 }
 
 void menu() {
-  printf("\n A- Resultado do exercício 04 \n B- Resultado do exercício 5 \n C- Finalizar");
-}
-
-int getNumber() {
-  int number;
+  char opcao;
+  float *pontVetor, *salarioFinal, media;
+  int invalida = 0, dias, tamanho;
+  
+  printf("\n A - Resultado do exercicio 04 \n B - Resultado do exercicio 05 \n C - Finalizar");
+  scanf("%c", &opcao);
+  fflush(stdin);
 
   do {
-  printf("\n Digite um número inteiro positivo ou nulo:");
-  scanf("%d", &number);
-    if (number < 0 && number != '\0') {
-      printf("\n O número não pode ser negativo!");
+    switch (opcao) {
+    case 'A':
+    
+      printf("\n Digite o numero de dias trabalhados");
+      scanf("%d", &dias);
+      valorLiquidoSalario(dias, salarioFinal);
+      printf("\n O salario novo sera de %f", *salarioFinal);
+      break;
+    case 'B': 
+      tamanho = getNumeroInteiro();
+      pontVetor = (float*) malloc (sizeof(float) * tamanho);
+      media = calcularMediaSalarios(tamanho, pontVetor);
+      printf("\n A media de salarios sera de %f", media);
+      break;
+    case 'C':
+      break;
+    default:
+      invalida = 1;
+      printf("\n Opcao inváida!");
+      break;
     }
-  } while (number < 0 && number != '\0');
-
-  return number;
+  } while (invalida == 0);
 }
 
-float getFloatPositiveNumber() {
-  float number;
+
+int getNumeroInteiro() {
+  int numero;
   do {
-  printf("\n Digite um número real positivo:");
-  scanf("%f", &number);
-    if (number < 0) {
-      printf("\n O número não pode ser negativo!");
+    printf("\n Digite um numero inteiro");
+    scanf("%i", &numero);
+
+    if (numero < 0) {
+      printf("\n O numero deve ser positivo!");
     }
-  } while (number < 0);
+  } while (numero < 0);
 
-  return number;
+  return numero;
 }
 
-float calcPaymentValue(int workDays) {
-
-  int newSalary = (workDays * 130) * 0.92;
-  return newSalary;
+float getNumeroReal(float *numero) {
+  do {
+    printf("\n Digite um numero real positivo");
+    scanf("%f", numero);
+    if (*numero < 0) {
+      printf("\n O numero deve ser positivo!");
+    }
+  } while(*numero < 0);
 }
 
-float calcPayment(float salary) {
-  float newSalary;
+float valorLiquidoSalario(int numeroDias, float *salarioFinal) {
+  return *salarioFinal = (numeroDias *  130)  * 0.92;
+}
 
-  if (salary <= 1500) {
-    newSalary = salary + (salary * 0.15);
-  } else if (salary > 1500 && salary <= 5000) {
-    newSalary = salary + (salary * 0.10);
+float calcularNovoSalario(float salario) {
+  float novoSalario;
+  if (salario <= 1500) {
+    novoSalario = salario + (salario * 0.15);
+  } else if (salario > 1500 && salario <= 5000) {
+    novoSalario = salario + (salario * 0.10);
   } else {
-    newSalary = salary;
+    novoSalario = salario;
+  }
+  return novoSalario;
+}
+
+float calcularMediaSalarios(int tamanho, float *pontVetor) {
+  float soma;
+  int i;
+
+  for (i = 0; i < tamanho; i++) {
+    getNumeroReal(pontVetor);
+    soma += calcularNovoSalario(*pontVetor);
+    pontVetor++;
   }
 
-  return newSalary;
+  return soma / tamanho;
+
 }
