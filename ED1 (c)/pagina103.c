@@ -77,7 +77,7 @@ void receberInteiro(char texto[], int *numero, opcao tipo) {
 			if (*numero < 0 && *numero != '\0') {
 				printf("\n O numero deve ser positivo!!");
 			}
-		} while(*numero < 0 && *numero != '\0');
+		} while(*numero < 0);
 	}
 
 }
