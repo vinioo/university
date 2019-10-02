@@ -117,17 +117,18 @@ void funcao04(int *vetorInt, char *vetorChar, int tamanho) {
 
 float funcao05(int *vetorInt, char *vetorChar, int tamanho, int *maiorNota) {
 	int i;
-	float media, maior = 0;
+	float media;
+	*maiorNota = 0;
 
 	funcao04(vetorInt, vetorChar, tamanho);
 
 	for (i = 0; i < tamanho; i++) {
-		  printf("%c", *vetorChar);
-		  printf("%d", *vetorInt);
+		  printf("Conceito: %c \n", *vetorChar);
+		  printf("Nota: %d \n", *vetorInt);
 
 		  media += *vetorInt;
 
-		  if (*vetorInt > maior) {
+		  if (*vetorInt > *maiorNota) {
 			  *maiorNota = *vetorInt;
 		  }
 
