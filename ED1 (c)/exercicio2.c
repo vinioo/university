@@ -1,96 +1,142 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
+//Protótipos
 void menu();
-int getNumeroPositivo();
-float getNumeroReal(float *numero);
-float calcularNovoSalario(int dias, float *novoSalario);
-float calcularMediaSalarios(float *vetor, int tamanho);
-
-int main() {
-  setbuf(stdout, NULL);
-  menu();
-  return 0;
+void concatenar();
+void receberInteiro(char frase[], int *numero);
+char retornarConceito(int nota);
+void funcao04(int *vetorInt, char *vetorChar, int tamanho);
+float funcao05(int *vetorInt, char *vetorChar, int tamanho, int *maiorNota);
+int main(void) {
+	setbuf(stdout, NULL);
+	menu();
+	return 0;
 }
 
-void menu() {
-  int valida = 0, tamanho;
-  float *salarioFinal, media;
-  char opcao;
-  do {
-    printf("\n A- Resultado do exercicio 04 \n B- Resultado do exercicio 05 \n C- Finalizar \n");
-    scanf("%c", &opcao);
 
-    switch (opcao) {
-    case 'A':
-      calcularNovoSalario(getNumeroPositivo(), salarioFinal);
-      printf("O salario final será de %.2f", *salarioFinal);
-      break;
-    case 'B':
-      tamanho = getNumeroPositivo();
-      float *pontVetor = (float*) malloc (sizeof(float) * tamanho);
-      media = calcularMediaSalarios(pontVetor, tamanho);
-      printf("A media sera de: %f", media);
-      break;
-    default:
-      valida = 1;
-      printf("\n Opcao invalida!");
-      break;
+
+
+void menu(){
+	int 	op;
+	int numero, tamanho, *vetorInt, maiorNota;
+	char *vetorChar;
+	float media;
+
+	do {
+
+		printf("\n1 - Função 01"
+				"\n2 - Função 02"
+				"\nSair"
+				"\nDigite sua opção: ");
+		scanf("%d", &op);
+
+		switch (op){
+		case 1:
+			printf("\nExecutar todas as chamadas da função 01 \n");
+			concatenar("teste", "vinicius");
+			break;
+		case 2:
+			printf("\nExecutar todas as chamadas da função 05 \n");
+			vetorInt = (int*) malloc (sizeof(int) * tamanho);
+			vetorChar = (char*) malloc (sizeof(char) * tamanho);
+			receberInteiro("Digite o tamanho dos vetores", &numero);
+			media = funcao05(vetorInt, vetorChar, numero, &maiorNota);
+
+			printf("A maior nota foi: %d \n", maiorNota);
+			printf("A media da turma foi: %.2f \n", media);
+			break;
+		case 3:
+
+			printf("\nPrograma encerrado.");
+			break;
+		default:
+			printf("\nValor inválido.");
+		}
+	} while (op != 3);
+}
+
+
+void concatenar(char a[], char b[]) {
+	int i = 0;
+    int tamanho1 = 0;
+    while (a[tamanho1]) tamanho1++;
+
+    int tamanho2 = 0;
+    while (b[tamanho2]) tamanho2++;
+
+    int tamanho3 = tamanho1 + tamanho2 + 1;
+    char *c = (char *) malloc(tamanho3);
+
+    for (i = 0; a[i]; i++) {
+        c[i] = a[i];
     }
-  } while(valida = 0);
-}
 
-int getNumeroPositivo() {
-  int numero;
-  do {
-  printf("Digite um numero inteiro positivo:");
-  scanf("%d", &numero);
-    if (numero < 0) {
-      printf("O número deve ser positivo!");
+    for (i = 0; b[i]; i++) {
+        c[i + tamanho1] = b[i];
     }
-  } while (numero < 0);
 
-  return numero;
+    c[tamanho1 + tamanho2] = 0;
+
+    printf("%s\n", c);
+    free(c);
 }
 
-float getNumeroReal(float *numero) {
-  do {
-    printf("Digite um numero real positivo");;
-    scanf("%f", numero); 
-    if (*numero < 0) {
-      printf("O numero deve ser positivo!");
-    }
-  } while (*numero < 0);
-
-  return *numero;
+void receberInteiro(char frase[], int *numero) {
+	do {
+		printf("%s", frase);
+		scanf("%d", numero);
+		if (*numero < 0 || *numero > 100) {
+			printf("\n O numero deve ser entre 1 e 100!");
+		}
+	} while(*numero < 0 || *numero > 100);
 }
 
-float calcularNovoSalario(int dias, float *novoSalario) {
-  return *novoSalario =  (130 * dias) * 0.92;
+char retornarConceito(int nota) {
+	if (nota >= 60 && nota <= 100) {
+		return 'A';
+	} else if (nota >= 20 && nota <= 59) {
+		return 'E';
+	} else {
+		return 'R';
+	}
 }
 
-float calcularAumentoSalario(float salario) {
-  float novoSalario;
-  if (salario <= 1500) {
-    novoSalario = salario + (salario * 0.15);
-  } else if (salario > 1500 && salario <= 5000) {
-    novoSalario = salario + (salario * 0.10);
-  } else {
-    return salario;
+void funcao04(int *vetorInt, char *vetorChar, int tamanho) {
+  int i;
+
+  for (i = 0; i < tamanho; i++) {
+	receberInteiro("Digite um numero entre 1 e 100", vetorInt);
+	*vetorChar = retornarConceito(*vetorInt);
+
+	vetorChar++;
+	vetorInt++;
   }
-  return novoSalario;
+
 }
 
-float calcularMediaSalarios(float *vetor, int tamanho) {
- int i;
- float soma;
+float funcao05(int *vetorInt, char *vetorChar, int tamanho, int *maiorNota) {
+	int i;
+	float media, maior = 0;
 
- for (i = 0; i < tamanho; i++) {
-   getNumeroReal(vetor);
-   soma += *vetor;
-   vetor++;
- }
+	funcao04(vetorInt, vetorChar, tamanho);
 
- return soma / tamanho ;
+	for (i = 0; i < tamanho; i++) {
+		  printf("%c", *vetorChar);
+		  printf("%d", *vetorInt);
+
+		  media += *vetorInt;
+
+		  if (*vetorInt > maior) {
+			  *maiorNota = *vetorInt;
+		  }
+
+		  vetorChar++;
+		  vetorInt++;
+
+	}
+
+	return media / tamanho;
 }
+
+
