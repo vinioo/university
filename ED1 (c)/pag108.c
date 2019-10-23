@@ -43,7 +43,7 @@ void menu() {
 
 		switch (opcao) {
 			case 'A':
-				produtosStruct produtos = (produtosStruct*) malloc (sizeof(produtosStruct) * totalProdutos());
+				produtosStruct *produtos = (produtosStruct*) malloc (sizeof(produtosStruct) * totalProdutos());
 
 				break;
 			case 'B':
