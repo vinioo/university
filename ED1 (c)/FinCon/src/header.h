@@ -8,28 +8,34 @@
 #ifndef HEADER_H_
 #define HEADER_H_
 
-#define GERAR_CODIGO rand()
+#define RANDOM() rand()
 
 enum TIPOS_CARTAO { Universitario = 'U', Nacional = 'N', Internacional = 'I'};
+enum TIPOS_DEPENDENTE { Conguge = 'C', Filho = 'F', Enteado = 'E' };
 
 
 
 typedef struct dadosCliente;
-typedef struct dadosDependente;
+typedef struct dependente;
 
-struct {
-
-} dadosDependente;
-
-struct {
+struct dependente {
 	char *nome[50];
-	char GERAR_CODIGO;
+	int codigo; /// ??
+	char *dataNascimento[8];
+	enum TIPOS_DEPENDENTE;
+};
+
+struct dadosCliente {
+	char *nome[50];
+	char RANDOM;
 	char *dataNascimento[8];
 	float limite;
 	enum TIPO_CARTAO;
 	int quantidadeDependentes;
-	dadosDependente *listaDependentes;
+//	dependente  *listaDependentes; // ??
 
-} dadosCliente;
+};
+
+
 
 #endif /* HEADER_H_ */
