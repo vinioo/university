@@ -10,32 +10,50 @@
 
 #define RANDOM() rand()
 
-enum TIPOS_CARTAO { Universitario = 'U', Nacional = 'N', Internacional = 'I'};
-enum TIPOS_DEPENDENTE { Conguge = 'C', Filho = 'F', Enteado = 'E' };
+const int QUANTIDADE_DEPENTENTES = 2;
+const int ANO_ATUAL = 2019;
+
+//enum TIPOS_CARTAO { Universitario = 'U', Nacional = 'N', Internacional = 'I'};
+//enum TIPOS_DEPENDENTE { Conguge = 'C', Filho = 'F', Enteado = 'E' };
 
 
 
-typedef struct dadosCliente;
-typedef struct dependente;
+typedef struct cliente cliente;
+typedef struct dependente dependente;
+
+
+struct cliente {
+	char *nome[50];
+	char codigo;
+	char *dataNascimento;
+	float limite;
+	char TIPO_CARTAO;
+	int quantidadeDependentes;
+	cliente *proximo;
+	dependente *listaDependentes;
+};
+
 
 struct dependente {
 	char *nome[50];
 	int codigo; /// ??
-	char *dataNascimento[8];
-	enum TIPOS_DEPENDENTE;
-};
-
-struct dadosCliente {
-	char *nome[50];
-	char RANDOM;
-	char *dataNascimento[8];
-	float limite;
-	enum TIPO_CARTAO;
-	int quantidadeDependentes;
-//	dependente  *listaDependentes; // ??
+	char *dataNascimento;
+	char TIPOS_DEPENDENTE;
+	dependente *anterior;
+	dependente *proximo;
 
 };
 
+void cadastrarNome();
+cliente* inserirClienteFim(cliente *lista);
+char* cadastrarNascimento(int dependenteOk);
+void cadastrarLimite(cliente *cliente);
+char cadastrarTipo();
+void cadastrarQtdeDependente(cliente *cliente);
+int obterIdade(char *dataNascimento);
+dependente* inserirDependenteInicio(dependente *lista);
+void cadastrarTipoDependente(char *tipoDependente);
+void exibirClienteLista(cliente *cliente);
 
 
 #endif /* HEADER_H_ */
