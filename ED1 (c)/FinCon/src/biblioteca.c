@@ -56,8 +56,11 @@ void menu() {
 				cliente = excluirCliente(cliente);
 				break;
 			case 2:
-				cliente->listaDependentes = excluirDependente(
-						cliente->listaDependentes);
+				if (cliente->listaDependentes != NULL) {
+					cliente->listaDependentes = excluirDependente(cliente->listaDependentes);
+				} else {
+					puts("Não existem dependentes cadastrados!!");
+				}
 				break;
 			}
 			break;
@@ -130,11 +133,10 @@ char* cadastrarNascimento(int dependenteOk) {
 	int error = 1, idade;
 	do {
 		printf("Digite o ano de nascimento: \n");
-		scanf("%s", dataNascimento);
 		fflush(stdin);
+		scanf("%s", dataNascimento);
 
 		idade = obterIdade(dataNascimento);
-
 		if (dataNascimento[2] != '/' || dataNascimento[5] != '/'
 				|| strlen(dataNascimento) > 10) {
 			printf("\n ERRO! A data deve ser no formato DD/MM/YYYY");
@@ -144,6 +146,7 @@ char* cadastrarNascimento(int dependenteOk) {
 
 		if (dependenteOk == 1) {
 			if (idade < 0 || idade > 100) {
+				printf("IDADE: %d", idade);
 				printf(
 						"\n ERRO! A idade para dependente deve ser entre 0 e 100 anos.");
 			}
@@ -322,11 +325,11 @@ void exibirClienteLista(cliente *listaCliente) {
 	puts("\n\n\nCliente(s)\n");
 	while (listaCliente != NULL) {
 		exibirCliente(listaCliente);
+		exibirDependentes(listaCliente->listaDependentes);
 		media += listaCliente->limite;
 		quantidade++;
 		if (listaCliente->proximo != NULL) {
 			exibirClienteLista(listaCliente->proximo);
-			exibirDependentes(listaCliente->listaDependentes);
 
 		} else {
 			media = media / quantidade;
@@ -391,8 +394,10 @@ cliente* excluirCliente(cliente *lista) {
 			}
 
 			free(tmp);
+			printf("Cliente %d excluido com sucesso!", codigoCliente);
 			break;
 		} else {
+			puts("Cliente não encontrado!");
 			anterior = tmp;
 			tmp = tmp->proximo;
 		}
@@ -406,6 +411,7 @@ dependente* excluirDependente(dependente *listaDependente) {
 	int cod; //TODO: trocar para char
 
 	puts("Digite o código do dependente que deseja excluir:");
+	fflush(stdin);
 	scanf("%d", &cod);
 
 	while (tmp != NULL) {
