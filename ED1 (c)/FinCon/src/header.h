@@ -10,8 +10,7 @@
 
 #define RANDOM() rand()
 
-const int QUANTIDADE_DEPENTENTES = 2;
-const int ANO_ATUAL = 2019;
+
 
 //enum TIPOS_CARTAO { Universitario = 'U', Nacional = 'N', Internacional = 'I'};
 //enum TIPOS_DEPENDENTE { Conguge = 'C', Filho = 'F', Enteado = 'E' };
