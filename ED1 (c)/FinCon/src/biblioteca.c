@@ -17,32 +17,35 @@ const int ANO_ATUAL = 2019;
 void menu() {
 	char opcao;
 	int opcaoSubMenu;
-	cliente *cliente;
+	cliente *cliente = NULL;
 
 	do {
-		printf("================= MENU =================");
+		printf("\n ================= MENU =================");
 		printf(
 				"\n A - Inserir \n B - Excluir \n C - Relatórios \n D - Finalizar ");
-		scanf("%c", &opcao);
+		fflush(stdin);
+		scanf(" %c", &opcao);
 		switch (opcao) {
 		case 'A':
-			printf(" ================= SUBMENU A ================= ");
-			printf(
-					"\n 1 - Efetuar inclusão de cliente \n 2 - Efetuar incusão de dependente");
-			scanf("%d", &opcaoSubMenu);
-			switch (opcaoSubMenu) {
-			case 1:
-				printf(" ================= INSERIR CLIENTE ================= ");
-				cliente = inserirClienteFim(cliente);
-				break;
-			case 2:
+			do {
+				printf(" ================= SUBMENU A ================= ");
 				printf(
-						" ================= INSERIR DEPENDENTE ================= ");
-				break;
-			default:
-				printf("Opção inválida!!!");
-				break;
-			}
+						"\n 1 - Efetuar inclusão de cliente \n 2 - Efetuar incusão de dependente");
+				scanf("%d", &opcaoSubMenu);
+				switch (opcaoSubMenu) {
+				case 1:
+					printf(
+							" ================= INSERIR CLIENTE ================= ");
+					cliente = inserirClienteFim(cliente);
+					puts("Cliente inserido com sucesso!");
+					break;
+				case 2:
+					printf(
+							" ================= INSERIR DEPENDENTE ================= ");
+					inserirDepententeEmClienteJaExistente(cliente);
+					break;
+				}
+			} while (opcaoSubMenu != 1 && opcaoSubMenu != 2);
 			break;
 		case 'B':
 			printf(
@@ -50,12 +53,11 @@ void menu() {
 			scanf("%d", &opcaoSubMenu);
 			switch (opcaoSubMenu) {
 			case 1:
-
+				cliente = excluirCliente(cliente);
 				break;
 			case 2:
-				break;
-			default:
-				printf("Opção inválida!!!");
+				cliente->listaDependentes = excluirDependente(
+						cliente->listaDependentes);
 				break;
 			}
 			break;
@@ -68,11 +70,10 @@ void menu() {
 				exibirClienteLista(cliente);
 				break;
 			case 2:
+				exibirClientePorCodigo(cliente);
 				break;
 			case 3:
-				break;
-			default:
-				printf("Opção inválida!!!");
+				exibirClientePorCartao(cliente);
 				break;
 			}
 			break;
@@ -87,7 +88,7 @@ void menu() {
 cliente* inserirClienteFim(cliente *lista) {
 	cliente *novo = malloc(sizeof(lista));
 
-	cadastrarNome(novo->nome, "Digite o nome do cliente: ");
+	cadastrarNome(novo->nome, "\n Digite o nome do cliente: ");
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(0);
 	cadastrarTipo();
@@ -271,16 +272,15 @@ void inserirDepententeEmClienteJaExistente(cliente *listaCliente) {
 void cadastrarTipoDependente(char *tipoDependente) {
 	char tipo;
 	do {
-		printf("Digite o tipo do dependente:\n C - Conjuge | F - Filho | E - Enteado \n");
+		printf(
+				"Digite o tipo do dependente:\n C - Conjuge | F - Filho | E - Enteado \n");
 		fflush(stdin);
 		scanf(" %c", &tipo);
 
-		if (tipo != 'C' && tipo != 'F'
-				&& tipo != 'E') {
+		if (tipo != 'C' && tipo != 'F' && tipo != 'E') {
 			printf("\n Tipo inválido!!!");
 		}
-	} while (tipo != 'C' && tipo != 'F'
-			&& tipo != 'E');
+	} while (tipo != 'C' && tipo != 'F' && tipo != 'E');
 	tipoDependente = tipo;
 }
 
@@ -332,7 +332,7 @@ void exibirClientePorCodigo(cliente *listaCliente) {
 }
 
 void exibirClientePorCartao(cliente *listaCliente) {
-	char tipoCartao; //TODO: TROCAR PARA CHAR
+	char tipoCartao;
 	puts("\n\n\nCliente(s) por código\n");
 	puts("Digite o código desejado:");
 	scanf(" %c", &tipoCartao);
@@ -348,4 +348,66 @@ void exibirClientePorCartao(cliente *listaCliente) {
 			break;
 		}
 	}
+}
+
+cliente* excluirCliente(cliente *lista) {
+	cliente *tmp = lista, *anterior = NULL;
+	int codigoCliente; //TODO: TROCAR PARA CHAR
+	puts("\nDigite o código do cliente que deseja excluir:");
+	scanf("%d", &codigoCliente);
+
+	while (tmp != NULL) {
+		if (tmp->codigo == codigoCliente) {
+			if (anterior != NULL) {
+				anterior->proximo = tmp->proximo;
+			} else {
+				lista = lista->proximo;
+			}
+
+			free(tmp);
+			break;
+		} else {
+			anterior = tmp;
+			tmp = tmp->proximo;
+		}
+	}
+	return lista;
+
+}
+
+dependente* excluirDependente(dependente *listaDependente) {
+	dependente *tmp = listaDependente;
+	int cod; //TODO: trocar para char
+
+	puts("Digite o código do dependente que deseja excluir:");
+	scanf("%d", &cod);
+
+	while (tmp != NULL) {
+		if (tmp->codigo == cod) {
+			if (tmp->anterior == NULL) {
+				if (tmp->proximo != NULL) {
+					tmp->proximo->anterior = NULL;
+				}
+
+				listaDependente = listaDependente->proximo;
+
+				free(tmp);
+
+				return listaDependente;
+			} else {
+				tmp->anterior->proximo = tmp->proximo;
+				if (tmp->proximo != NULL) {
+					tmp->proximo->anterior = tmp->anterior;
+				}
+				free(tmp);
+
+				return listaDependente;
+			}
+
+		} else {
+			tmp = tmp->proximo;
+		}
+	}
+
+	return listaDependente;
 }
