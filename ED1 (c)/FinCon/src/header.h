@@ -10,13 +10,6 @@
 
 #define RANDOM() rand()
 
-
-
-//enum TIPOS_CARTAO { Universitario = 'U', Nacional = 'N', Internacional = 'I'};
-//enum TIPOS_DEPENDENTE { Conguge = 'C', Filho = 'F', Enteado = 'E' };
-
-
-
 typedef struct cliente cliente;
 typedef struct dependente dependente;
 
@@ -43,6 +36,7 @@ struct dependente {
 
 };
 
+void menu();
 void cadastrarNome();
 cliente* inserirClienteFim(cliente *lista);
 char* cadastrarNascimento(int dependenteOk);
@@ -55,6 +49,8 @@ void cadastrarTipoDependente(char *tipoDependente);
 void exibirClienteLista(cliente *cliente);
 dependente* inserirDependenteInicio(dependente *lista);
 void inserirDepententeEmClienteJaExistente(cliente *listaCliente);
+cliente* excluirCliente (cliente *lista);
+dependente* excluirDependente(dependente *listaDependente);
 
 
 #endif /* HEADER_H_ */
