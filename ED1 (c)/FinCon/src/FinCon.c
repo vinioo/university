@@ -16,12 +16,6 @@
 
 int main(void) {
 	setbuf(stdout, NULL);
-	cliente *cliente = NULL;
-	cliente = inserirClienteFim(cliente);
-	inserirDepententeEmClienteJaExistente(cliente);
-//	exibirClienteLista(cliente);
-//	exibirClientePorCodigo(cliente);
-//	exibirClientePorCartao(cliente);
-//	menu();
+	menu();
 	return EXIT_SUCCESS;
 }
