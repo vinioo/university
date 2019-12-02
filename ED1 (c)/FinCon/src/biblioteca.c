@@ -78,7 +78,7 @@ void menu() {
 			}
 			break;
 		case 'D':
-				puts("Programa finalizado.");
+			puts("Programa finalizado.");
 			break;
 		default:
 			printf("\n Opção inválida!!");
@@ -289,12 +289,31 @@ void cadastrarTipoDependente(char *tipoDependente) {
 }
 
 void exibirCliente(cliente *cliente) {
+	puts("== CLIENTE == ");
 	printf("Nome do Cliente: %s", cliente->nome);
 	printf("\nCódigo do Cliente: %d", cliente->codigo);
 	printf("\nData de nascimento do Cliente: %s", cliente->dataNascimento);
 	printf("\nLimite do Cliente: R$%.2f", cliente->limite);
 	printf("\nTipo cartão: %c", cliente->TIPO_CARTAO);
 	printf("\nQuantidade de dependente: %i", cliente->quantidadeDependentes);
+}
+
+void exibirDependentes(dependente *dependente) {
+	int count = 1;
+	puts("== DEPENDENTES ==");
+	while (dependente != NULL) {
+		printf("= DEPENDENTE %d =", count);
+		printf("\n Nome do dependente: %s", dependente->nome);
+		printf("\n Código do dependente: %d", dependente->codigo);
+		printf("\n Data de nascimento: %s", dependente->dataNascimento);
+		printf("\n Limite: %.2f", dependente->TIPOS_DEPENDENTE);
+		count++;
+		if (dependente->proximo != NULL) {
+			exibirDependentes(dependente->proximo);
+		} else {
+			break;
+		}
+	}
 }
 
 void exibirClienteLista(cliente *listaCliente) {
@@ -307,6 +326,7 @@ void exibirClienteLista(cliente *listaCliente) {
 		quantidade++;
 		if (listaCliente->proximo != NULL) {
 			exibirClienteLista(listaCliente->proximo);
+			exibirDependentes(listaCliente->listaDependentes);
 
 		} else {
 			media = media / quantidade;
@@ -324,6 +344,7 @@ void exibirClientePorCodigo(cliente *listaCliente) {
 	while (listaCliente != NULL) {
 		if (listaCliente->codigo == codigo) {
 			exibirCliente(listaCliente);
+			exibirDependentes(listaCliente->listaDependentes);
 		}
 		puts("\n");
 		if (listaCliente->proximo != NULL) {
@@ -343,6 +364,7 @@ void exibirClientePorCartao(cliente *listaCliente) {
 	while (listaCliente != NULL) {
 		if (listaCliente->TIPO_CARTAO == tipoCartao) {
 			exibirCliente(listaCliente);
+			exibirDependentes(listaCliente->listaDependentes);
 		}
 		puts("\n");
 		if (listaCliente->proximo != NULL) {
