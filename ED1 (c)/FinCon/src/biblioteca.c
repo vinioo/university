@@ -94,8 +94,10 @@ void menu() {
 
 cliente* inserirClienteFim(cliente *lista) {
 	cliente *novo = malloc(sizeof(lista));
-
+	char *codigo;
 	cadastrarNome(novo->nome, "\n Digite o nome do cliente: ");
+	codigo = gerarCodigoCliente(novo->nome);
+	printf(" %s", codigo);
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(0);
 	cadastrarTipo();
@@ -444,3 +446,4 @@ dependente* excluirDependente(dependente *listaDependente) {
 
 	return listaDependente;
 }
+
