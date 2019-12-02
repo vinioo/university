@@ -53,6 +53,8 @@ int obterIdade(char *dataNascimento);
 dependente* inserirDependenteInicio(dependente *lista);
 void cadastrarTipoDependente(char *tipoDependente);
 void exibirClienteLista(cliente *cliente);
+dependente* inserirDependenteInicio(dependente *lista);
+void inserirDepententeEmClienteJaExistente(cliente *listaCliente);
 
 
 #endif /* HEADER_H_ */
