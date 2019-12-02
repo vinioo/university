@@ -188,7 +188,8 @@ int obterIdade(char *dataNascimento) {
 char cadastrarTipo() {
 	char tipoCartao;
 	do {
-		puts("Digite o tipo do cartão:\nU - Universitário | N - Nacional | I - Internacional");
+		puts(
+				"Digite o tipo do cartão:\nU - Universitário | N - Nacional | I - Internacional");
 		fflush(stdin);
 		scanf(" %c", &tipoCartao);
 		if (tipoCartao != 'U' && tipoCartao != 'N' && tipoCartao != 'I') {
@@ -222,7 +223,7 @@ void cadastrarQtdeDependente(cliente *cliente) {
 dependente* inserirDependenteInicio(dependente *lista) {
 	dependente *novo = malloc(sizeof(dependente));
 
-	cadastrarNome(novo->nome, "Digite o nome do dependente: \n");
+	cadastrarNome(novo->nome, "Digite o nome do dependente:");
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(1);
 	//cadastrarTipoDependente(novo->TIPOS_DEPENDENTE);
@@ -252,7 +253,7 @@ void cadastrarTipoDependente(char *tipoDependente) {
 }
 
 void exibirCliente(cliente *cliente) {
-	printf("Nome do dependente: %s", cliente->nome);
+	printf("Nome do Cliente: %s", cliente->nome);
 	printf("\nCódigo do Cliente: %d", cliente->codigo);
 	printf("\nData de nascimento do Cliente: %s", cliente->dataNascimento);
 	printf("\nLimite do Cliente: R$%.2f", cliente->limite);
@@ -261,11 +262,58 @@ void exibirCliente(cliente *cliente) {
 }
 
 void exibirClienteLista(cliente *listaCliente) {
-
+	int quantidade = 0;
+	float media = 0;
 	puts("\n\n\nCliente(s)\n");
 	while (listaCliente != NULL) {
 		exibirCliente(listaCliente);
+		media += listaCliente->limite;
+		quantidade++;
+		if (listaCliente->proximo != NULL) {
+			exibirClienteLista(listaCliente->proximo);
+
+		} else {
+			media = media / quantidade;
+			printf("\n\n A média dos limites é de %.2f", media);
+			break;
+		}
+	}
+}
+
+void exibirClientePorCodigo(cliente *listaCliente) {
+	int codigo; //TODO: TROCAR PARA CHAR
+	puts("\n\n\nCliente(s) por código\n");
+	puts("Digite o código desejado:");
+	scanf("%d", &codigo);
+	while (listaCliente != NULL) {
+		if (listaCliente->codigo == codigo) {
+			exibirCliente(listaCliente);
+		}
 		puts("\n");
-		exibirClienteLista(listaCliente->proximo);
+		if (listaCliente->proximo != NULL) {
+			exibirClienteLista(listaCliente->proximo);
+
+		} else {
+			break;
+		}
+	}
+}
+
+void exibirClientePorCartao(cliente *listaCliente) {
+	char tipoCartao; //TODO: TROCAR PARA CHAR
+	puts("\n\n\nCliente(s) por código\n");
+	puts("Digite o código desejado:");
+	scanf(" %c", &tipoCartao);
+	while (listaCliente != NULL) {
+		if (listaCliente->TIPO_CARTAO == tipoCartao) {
+			exibirCliente(listaCliente);
+		}
+		puts("\n");
+		if (listaCliente->proximo != NULL) {
+			exibirClienteLista(listaCliente->proximo);
+
+		} else {
+			break;
+		}
 	}
 }
