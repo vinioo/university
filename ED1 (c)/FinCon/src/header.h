@@ -8,7 +8,7 @@
 #ifndef HEADER_H_
 #define HEADER_H_
 
-#define RANDOM() rand()
+#define RANDOM() rand() % 1000
 
 typedef struct cliente cliente;
 typedef struct dependente dependente;
@@ -51,6 +51,9 @@ dependente* inserirDependenteInicio(dependente *lista);
 void inserirDepententeEmClienteJaExistente(cliente *listaCliente);
 cliente* excluirCliente (cliente *lista);
 dependente* excluirDependente(dependente *listaDependente);
+void exibirDependentes(dependente *dependente);
+void exibirClientePorCodigo(cliente *listaCliente);
+void exibirClientePorCartao(cliente *listaCliente);
 
 
 #endif /* HEADER_H_ */
