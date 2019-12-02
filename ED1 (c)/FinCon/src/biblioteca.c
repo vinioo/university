@@ -226,7 +226,7 @@ dependente* inserirDependenteInicio(dependente *lista) {
 	cadastrarNome(novo->nome, "Digite o nome do dependente:");
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(1);
-	//cadastrarTipoDependente(novo->TIPOS_DEPENDENTE);
+	cadastrarTipoDependente(novo->TIPOS_DEPENDENTE);
 	novo->proximo = lista;
 	novo->anterior = NULL;
 
@@ -237,19 +237,51 @@ dependente* inserirDependenteInicio(dependente *lista) {
 
 }
 
+void inserirDepententeEmClienteJaExistente(cliente *listaCliente) {
+	int codigoCliente, encontrou = 0;
+	puts("Digite o código do cliente que deseja inserir depententes:");
+	scanf("%d", &codigoCliente);
+
+	while (listaCliente != NULL) {
+		if (listaCliente->codigo == codigoCliente) {
+			if (listaCliente->quantidadeDependentes >= 2) {
+				puts("O Cliente pode ter no máximo 2 dependentes!!");
+				break;
+			} else {
+				encontrou = 1;
+				listaCliente->listaDependentes = inserirDependenteInicio(
+						listaCliente->listaDependentes);
+				puts("dependente inserido com sucesso!");
+			}
+
+		}
+		if (listaCliente->proximo != NULL) {
+			exibirClienteLista(listaCliente->proximo);
+		} else {
+			if (encontrou == 0) {
+				puts("Cliente não encontrado!");
+
+			}
+			break;
+		}
+	}
+
+}
+
 void cadastrarTipoDependente(char *tipoDependente) {
+	char tipo;
 	do {
-		printf(
-				"\n Digite o tipo do dependente:\n C - Conjuge | F - Filho | E - Enteado \n");
+		printf("Digite o tipo do dependente:\n C - Conjuge | F - Filho | E - Enteado \n");
 		fflush(stdin);
-		scanf("%c", tipoDependente);
-		if (*tipoDependente != 'C' && *tipoDependente != 'F'
-				&& *tipoDependente != 'E') {
+		scanf(" %c", &tipo);
+
+		if (tipo != 'C' && tipo != 'F'
+				&& tipo != 'E') {
 			printf("\n Tipo inválido!!!");
 		}
-	} while (*tipoDependente != 'C' && *tipoDependente != 'F'
-			&& *tipoDependente != 'E');
-
+	} while (tipo != 'C' && tipo != 'F'
+			&& tipo != 'E');
+	tipoDependente = tipo;
 }
 
 void exibirCliente(cliente *cliente) {
