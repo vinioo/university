@@ -11,6 +11,9 @@
 
 #include "header.h"
 
+const int QUANTIDADE_DEPENTENTES = 2;
+const int ANO_ATUAL = 2019;
+
 void menu() {
 	char opcao;
 	int opcaoSubMenu;
@@ -84,7 +87,7 @@ void menu() {
 cliente* inserirClienteFim(cliente *lista) {
 	cliente *novo = malloc(sizeof(lista));
 
-	cadastrarNome(novo->nome, " Digite o nome do cliente: ");
+	cadastrarNome(novo->nome, "Digite o nome do cliente: ");
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(0);
 	cadastrarTipo();
@@ -106,7 +109,7 @@ cliente* inserirClienteFim(cliente *lista) {
 
 void cadastrarNome(char *nome, char *texto) {
 	do {
-		printf("\n %s \n", texto);
+		printf("%s \n", texto);
 		fflush(stdin);
 		scanf("%s", nome);
 
@@ -122,7 +125,7 @@ char* cadastrarNascimento(int dependenteOk) {
 	char *dataNascimento = malloc(sizeof(char) * 10);
 	int error = 1, idade;
 	do {
-		printf(" Digite o ano de nascimento: \n");
+		printf("Digite o ano de nascimento: \n");
 		scanf("%s", dataNascimento);
 		fflush(stdin);
 
@@ -185,10 +188,9 @@ int obterIdade(char *dataNascimento) {
 char cadastrarTipo() {
 	char tipoCartao;
 	do {
-		printf(
-				"\n Digite o tipo do cartão:\n U - Universitário | N - Nacional | I - Internacional \n");
+		puts("Digite o tipo do cartão:\nU - Universitário | N - Nacional | I - Internacional");
 		fflush(stdin);
-		tipoCartao = getchar();
+		scanf(" %c", &tipoCartao);
 		if (tipoCartao != 'U' && tipoCartao != 'N' && tipoCartao != 'I') {
 			printf("\n Tipo inválido!!!");
 		}
@@ -201,7 +203,7 @@ void cadastrarQtdeDependente(cliente *cliente) {
 	int quantidadeDependentes, i;
 	dependente *listaDependentes = NULL;
 	do {
-		printf(" Digite a quantidade de dependentes do cliente %s ",
+		printf("Digite a quantidade de dependentes do cliente %s ",
 				cliente->nome);
 		fflush(stdin);
 		scanf("%d", &quantidadeDependentes);
@@ -212,15 +214,15 @@ void cadastrarQtdeDependente(cliente *cliente) {
 	} while (quantidadeDependentes > 2);
 	cliente->quantidadeDependentes = quantidadeDependentes;
 
-//	for (i = 0; i < quantidadeDependentes; i++) {
-//		cliente->listaDependentes = inserirDependenteInicio(listaDependentes);
-//	}
+	for (i = 0; i < quantidadeDependentes; i++) {
+		cliente->listaDependentes = inserirDependenteInicio(listaDependentes);
+	}
 }
 
 dependente* inserirDependenteInicio(dependente *lista) {
 	dependente *novo = malloc(sizeof(dependente));
 
-	cadastrarNome(novo->nome, "\n Digite o nome do dependente: \n");
+	cadastrarNome(novo->nome, "Digite o nome do dependente: \n");
 	//novo->codigo = "a"; //TODO: Concatenar com a primeira letra do nome
 	novo->dataNascimento = cadastrarNascimento(1);
 	//cadastrarTipoDependente(novo->TIPOS_DEPENDENTE);
@@ -267,4 +269,3 @@ void exibirClienteLista(cliente *listaCliente) {
 		exibirClienteLista(listaCliente->proximo);
 	}
 }
-
