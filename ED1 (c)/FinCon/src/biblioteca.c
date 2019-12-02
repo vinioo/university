@@ -77,6 +77,9 @@ void menu() {
 				break;
 			}
 			break;
+		case 'D':
+				puts("Programa finalizado.");
+			break;
 		default:
 			printf("\n Opção inválida!!");
 			break;
@@ -281,6 +284,7 @@ void cadastrarTipoDependente(char *tipoDependente) {
 			printf("\n Tipo inválido!!!");
 		}
 	} while (tipo != 'C' && tipo != 'F' && tipo != 'E');
+
 	tipoDependente = tipo;
 }
 
