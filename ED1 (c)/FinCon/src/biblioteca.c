@@ -343,7 +343,7 @@ void exibirClienteLista(cliente *listaCliente) {
 }
 
 void exibirClientePorCodigo(cliente *listaCliente) {
-	int codigo; //TODO: TROCAR PARA CHAR
+	int codigo; 
 	puts("\n\n\nCliente(s) por código\n");
 	puts("Digite o código desejado:");
 	scanf("%d", &codigo);
