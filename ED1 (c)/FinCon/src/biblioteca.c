@@ -133,6 +133,7 @@ void cadastrarNome(char *nome, char *texto) {
 
 char* cadastrarNascimento(int dependenteOk) {
 	char *dataNascimento = malloc(sizeof(char) * 10);
+	
 	int error = 1, idade;
 	do {
 		printf("Digite o ano de nascimento: \n");
