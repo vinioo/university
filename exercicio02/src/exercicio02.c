@@ -11,20 +11,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
+int palindromoTail(char str[], int s, int e)
+{
+    if (s == e)
+    return 1;
 
-void palindromo(char texto[], int tamanho) {
-	if (tamanho < 0) {
-		return;
-	}
-	if (texto[tamanho - 1] != texto[tamanho - tamanho + 1]) {
-		printf("ultima: %c - primeira: %c \n", texto[tamanho - 1], texto[tamanho - tamanho + 1]);
-	}
-	printf("%c", texto[tamanho - 1]);
-	palindromo(texto, tamanho - 1);
+    if (str[s] != str[e])
+    return 0;
+
+    if (s < e + 1)
+    return palindromoTail(str, s + 1, e - 1);
+
+    return 1;
 }
 
-int main(void) {
-	palindromo("rodador", strlen("rodador"));
-	return EXIT_SUCCESS;
+int isPalindromo(char str[])
+{
+int n = strlen(str);
+
+if (n == 0)
+    return 1;
+
+return palindromoTail(str, 0, n - 1);
+}
+
+int main()
+{
+    char str[] = "reviver";
+
+    if (isPalindromo(str))
+    printf("Sim");
+    else
+    printf("Não");
+
+    return 0;
 }
